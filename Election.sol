@@ -80,7 +80,7 @@ using SafeMath for uint256;
         //Vérification du début des votes
         require(!isVotingInSession, "Election has already started");
         
-        require(candidat[_address].id != 0, "\"Candidat\" list.");
+        require(candidat[_address].id != 0, "N'est pas dans la \"Candidat\" list.");
     
        candidatselectionnedCount++;
         candidatselectionned[_address] = CandidatSelectionned(
