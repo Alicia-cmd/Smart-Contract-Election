@@ -9,14 +9,14 @@ contract President is Ownable {
 
 using SafeMath for uint256;
 
-    // Objet liste de tous les candidats
+    // Objet liste de tous les candidats qui existe
     struct Candidat {
         uint id;
         address ethadress;
         string name;
     }
     
-    // Objet liste des candidats selectionnés (500 signatures) 
+    // Objet liste des candidats selectionnés (exemple: 500 signatures) 
     struct CandidatSelectionned {
         uint id;
         string name;
@@ -80,7 +80,7 @@ using SafeMath for uint256;
         //Vérification du début des votes
         require(!isVotingInSession, "Election has already started");
         
-        require(candidat[_address].id != 0, "\"Candidat\" list.");
+        require(candidat[_address].id != 0, "N'est pas dans la \"Candidat\" list.");
     
        candidatselectionnedCount++;
         candidatselectionned[_address] = CandidatSelectionned(
