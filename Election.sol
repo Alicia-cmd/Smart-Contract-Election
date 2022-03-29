@@ -47,7 +47,7 @@ using SafeMath for uint256;
     
     event votedEvent (address _address, string confirm);
 
-    //Calculer le nombre de vottant
+    //Ajouter des utilisateurs qui sont autorisés à voter pour les candidats selectionnés
     function addVoter (address _address) public onlyOwner {
         require(!isVotingInSession, "Les élections ont déjà commencé");
         
@@ -92,6 +92,7 @@ using SafeMath for uint256;
         Candidates.push(_address);
     }
     
+    //Supprimer les utilisateurs qui sont autorisé à voter
     function removeVoter (address _address) public onlyOwner {
         require(!isVotingInSession, "Election has already started");
         votersCount--;
@@ -112,27 +113,18 @@ using SafeMath for uint256;
     }
     
     //Function pour voter
-    function vote (address _firstChoice, address _secondChoice, address _thirdChoice, address _fourthChoice, address _fifthChoice) public {
+    function vote (address _firstChoice) public {
         // vérifier si le vote a déjà été pris en compte
         require(voters[msg.sender].id != 0, "Vous n'êtes pas autoriser à voter.");
         //vérifier si l'utilisateur a déjà voté pour cette session/vote
         require(!voters[msg.sender].hasVoted, "Vous avez déjà voté pour cette session.");
 
         // vérifie si le candidat est valide.
-        require(candidatselectionned[_firstChoice].id != 0 && candidatselectionned[_secondChoice].id != 0 && candidatselectionned[_thirdChoice].id != 0 
-        && candidatselectionned[_fourthChoice].id != 0 && candidatselectionned[_fifthChoice].id != 0, "Adresse introuvable.");
+        require(candidatselectionned[_firstChoice].id != 0, "Adresse introuvable.");
 
         candidatselectionned[_firstChoice].voteCount += 6;
-        candidatselectionned[_secondChoice].voteCount += 4;
-        candidatselectionned[_thirdChoice].voteCount += 3;
-        candidatselectionned[_fourthChoice].voteCount += 2;
-        candidatselectionned[_fifthChoice].voteCount += 1;
         
         voters[msg.sender].VoteContent.push(_firstChoice);
-        voters[msg.sender].VoteContent.push(_secondChoice);
-        voters[msg.sender].VoteContent.push(_thirdChoice);
-        voters[msg.sender].VoteContent.push(_fourthChoice);
-        voters[msg.sender].VoteContent.push(_fifthChoice);
         
         voters[msg.sender].hasVoted = true;
         // evenement emit du vote
